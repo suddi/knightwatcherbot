@@ -10,10 +10,6 @@
 
 Get alerts via telegram for any system alerts
 
-````
-npm install knightwatcherbot
-````
-
 ## Usage
 
 Coming soon.
