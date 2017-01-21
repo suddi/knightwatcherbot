@@ -36,19 +36,21 @@
     "prepush": "npm test",
     "security-check": "nsp check --output summary",
     "start": "ntl",
-    "test": "npm run lint && npm run security-check && npm run doctest"
+    "test": "npm run lint && npm run security-check && npm run doctest && npm run coverage && npm run check-coverage"
   },
   "dependencies": {
     "claudia-api-builder": "^2.0.0",
     "dynamodb-doc": "^1.0.0"
   },
   "devDependencies": {
-    "claudia": "^2.6.0",
+    "chai": "^3.0.0",
+    "claudia": "^2.0.0",
     "eslint": "^3.0.0",
     "eslint-config-suddi": "^3.0.0",
     "husky": "^0.12.0",
     "istanbul": "^0.4.0",
     "jsdoctest": "^1.0.0",
+    "lodash": "^4.0.0",
     "mocha": "^3.0.0",
     "nsp": "^2.0.0",
     "ntl": "^1.0.0"
