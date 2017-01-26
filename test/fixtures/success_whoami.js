@@ -1,17 +1,19 @@
 'use strict';
 
+const Status = require('../../lib/enum/status');
+
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/message',
-            httpMethod: 'POST'
+            resourcePath: '/',
+            httpMethod: 'GET'
         }
     };
 };
 
 module.exports.getAssertions = function () {
     return {
-        'meta.code': 200,
+        meta: Status.get()['200'],
         data: {}
     };
 };
