@@ -38,7 +38,7 @@ module.exports.mock = function () {
     const getValues = function (key) {
         const value = {
             active: true,
-            chatid: 1
+            chatId: 1
         };
         return key ? value[key] : value;
     };
@@ -54,8 +54,8 @@ module.exports.mock = function () {
         });
     });
 
-    sinon.stub(Telegram, 'sendMessage', function (chatid, text) {
-        expect(chatid).to.be.eql(getValues('chatid'));
+    sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
+        expect(chatId).to.be.eql(getValues('chatId'));
         expect(text).to.be.eql(getBody().text);
         return Promise.resolve({});
     });

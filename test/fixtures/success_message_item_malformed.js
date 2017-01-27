@@ -5,7 +5,6 @@ const sinon = require('sinon');
 
 const Status = require('../../lib/enum/status');
 const DB = require('../../lib/db');
-const Telegram = require('../../lib/telegram');
 
 function getBody() {
     return {
@@ -35,14 +34,6 @@ module.exports.getAssertions = function () {
 };
 
 module.exports.mock = function (obj) {
-    const getValues = function (key) {
-        const value = {
-            active: true,
-            chatid: 1
-        };
-        return key ? value[key] : value;
-    };
-
     sinon.stub(DB, 'getItem', function (params) {
         expect(params).to.deep.eql({
             Key: {
@@ -52,11 +43,5 @@ module.exports.mock = function (obj) {
         return Promise.resolve({});
     });
 
-    sinon.stub(Telegram, 'sendMessage', function (chatid, text) {
-        expect(chatid).to.be.eql(getValues('chatid'));
-        expect(text).to.be.eql(getBody().text);
-        return Promise.resolve({});
-    });
-
-    return [DB.getItem.restore, Telegram.sendMessage.restore];
+    return [DB.getItem.restore];
 };

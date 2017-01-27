@@ -6,6 +6,7 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 
 const Status = require('../../lib/enum/status');
+
 const Telegram = require('../../lib/telegram');
 
 function getApiKey() {
@@ -23,7 +24,7 @@ function deleteEnv() {
 function getBody() {
     return {
         message: {
-            text: '/help',
+            text: '/add',
             chat: {
                 id: 1,
                 username: 'user',
@@ -41,10 +42,10 @@ module.exports.getInput = function () {
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
+            },
+            queryStringParameters: {
+                apiKey: 'wrong-key'
             }
-        },
-        queryStringParameters: {
-            apiKey: getApiKey()
         },
         body: getBody()
     };
@@ -62,7 +63,7 @@ module.exports.mock = function () {
 
     sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
         expect(chatId).to.be.eql(getBody().message.chat.id);
-        expect(text.startsWith('Welcome to KnightWatcher!')).to.be.eql(true);
+        expect(text.startsWith('You do not have access to this resource.')).to.be.eql(true);
         return Promise.resolve({});
     });
 

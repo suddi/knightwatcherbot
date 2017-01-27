@@ -8,6 +8,18 @@ const sinon = require('sinon');
 const Status = require('../../lib/enum/status');
 const Telegram = require('../../lib/telegram');
 
+function getApiKey() {
+    return '123';
+}
+
+function setEnv() {
+    process.env.TELEGRAM_API_KEY = getApiKey();
+}
+
+function deleteEnv() {
+    delete process.env.TELEGRAM_API_KEY;
+}
+
 function getBody() {
     return {
         message: {
@@ -31,6 +43,9 @@ module.exports.getInput = function () {
                 'Content-Type': 'application/json'
             }
         },
+        queryStringParameters: {
+            apiKey: getApiKey()
+        },
         body: getBody()
     };
 };
@@ -43,11 +58,13 @@ module.exports.getAssertions = function () {
 };
 
 module.exports.mock = function () {
-    sinon.stub(Telegram, 'sendMessage', function (chatid, text) {
-        expect(chatid).to.be.eql(getBody().message.chat.id);
+    setEnv();
+
+    sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
+        expect(chatId).to.be.eql(getBody().message.chat.id);
         expect(text.startsWith('I don\'t know what to do with that.')).to.be.eql(true);
         return Promise.resolve({});
     });
 
-    return [Telegram.sendMessage.restore];
+    return [deleteEnv, Telegram.sendMessage.restore];
 };

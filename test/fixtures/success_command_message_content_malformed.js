@@ -23,7 +23,7 @@ function deleteEnv() {
 function getBody() {
     return {
         message: {
-            text: '/help',
+            text: '/message',
             chat: {
                 id: 1,
                 username: 'user',
@@ -62,8 +62,8 @@ module.exports.mock = function () {
 
     sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
         expect(chatId).to.be.eql(getBody().message.chat.id);
-        expect(text.startsWith('Welcome to KnightWatcher!')).to.be.eql(true);
-        return Promise.resolve({});
+        expect(text.startsWith('/message must be in the form')).to.be.eql(true);
+        return Promise.resolve();
     });
 
     return [deleteEnv, Telegram.sendMessage.restore];
