@@ -8,7 +8,7 @@
 
 [![codecov](https://codecov.io/gh/suddi/knightwatcherbot/branch/master/graphs/commits.svg)](https://codecov.io/gh/suddi/knightwatcherbot)
 
-Get alerts via telegram for any system alerts
+Get alerts via telegram for any system alerts.
 
 ## Usage
 
