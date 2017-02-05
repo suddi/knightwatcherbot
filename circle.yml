@@ -4,3 +4,6 @@ machine:
 test:
     post:
         - bash <(curl -s https://codecov.io/bash)
+notify:
+    webhooks:
+        - url: https://bot.suddi.io/hooks/circle
