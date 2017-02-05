@@ -6,6 +6,7 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 
 const Status = require('../../lib/enum/status');
+const DB = require('../../lib/db');
 const Telegram = require('../../lib/telegram');
 
 function getApiKey() {
@@ -23,7 +24,7 @@ function deleteEnv() {
 function getBody() {
     return {
         message: {
-            text: '/unknown',
+            text: '/message anotheruser\nHi there, I\'m John Smith',
             chat: {
                 id: 1,
                 username: 'user',
@@ -37,7 +38,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/command',
+            resourcePath: '/hooks/telegram',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -60,11 +61,28 @@ module.exports.getAssertions = function () {
 module.exports.mock = function () {
     setEnv();
 
-    sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
-        expect(chatId).to.be.eql(getBody().message.chat.id);
-        expect(text.startsWith('I don\'t know what to do with that.')).to.be.eql(true);
+    const getValues = function (key) {
+        const value = {
+            active: true,
+            chatId: 1
+        };
+        return key ? value[key] : value;
+    };
+
+    sinon.stub(DB, 'getItem', function (params) {
+        if (params.Key.username === getBody().message.chat.username) {
+            return Promise.resolve({
+                Item: getValues()
+            });
+        }
         return Promise.resolve({});
     });
 
-    return [deleteEnv, Telegram.sendMessage.restore];
+    sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
+        expect(chatId).to.be.eql(getBody().message.chat.id);
+        expect(text.startsWith('Failed to send message')).to.be.eql(true);
+        return Promise.resolve();
+    });
+
+    return [deleteEnv, DB.getItem.restore, Telegram.sendMessage.restore];
 };

@@ -24,11 +24,12 @@ function deleteEnv() {
 function getBody() {
     return {
         message: {
-            text: '/add',
+            text: '/message anotheruser\nHi there, I\'m John Smith',
             chat: {
                 id: 1,
                 username: 'user',
-                first_name: 'John'
+                first_name: 'John',
+                last_name: 'Smith'
             }
         }
     };
@@ -37,7 +38,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/command',
+            resourcePath: '/hooks/telegram',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -60,24 +61,20 @@ module.exports.getAssertions = function () {
 module.exports.mock = function () {
     setEnv();
 
-    sinon.stub(DB, 'putItem', function (params) {
-        const body = getBody().message.chat;
+    sinon.stub(DB, 'getItem', function (params) {
         expect(params).to.deep.eql({
-            Item: {
-                username: body.username,
-                firstname: body.first_name,
-                chatId: body.id,
-                active: true
+            Key: {
+                username: getBody().message.chat.username
             }
         });
-        return Promise.resolve();
+        return Promise.resolve({});
     });
 
     sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
         expect(chatId).to.be.eql(getBody().message.chat.id);
-        expect(text.startsWith('Added user')).to.be.eql(true);
-        return Promise.resolve({});
+        expect(text.startsWith('Failed to send message')).to.be.eql(true);
+        return Promise.resolve();
     });
 
-    return [deleteEnv, DB.putItem.restore, Telegram.sendMessage.restore];
+    return [deleteEnv, DB.getItem.restore, Telegram.sendMessage.restore];
 };

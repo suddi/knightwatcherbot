@@ -38,7 +38,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/command',
+            resourcePath: '/hooks/telegram',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'

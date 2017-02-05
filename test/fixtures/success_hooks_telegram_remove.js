@@ -24,7 +24,7 @@ function deleteEnv() {
 function getBody() {
     return {
         message: {
-            text: '/message anotheruser\nHi there, I\'m John Smith',
+            text: '/remove',
             chat: {
                 id: 1,
                 username: 'user',
@@ -38,7 +38,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/command',
+            resourcePath: '/hooks/telegram',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -61,24 +61,22 @@ module.exports.getAssertions = function () {
 module.exports.mock = function () {
     setEnv();
 
-    const getValues = function (key) {
-        const value = {
-            active: true,
-            chatId: 1
-        };
-        return key ? value[key] : value;
-    };
-
-    sinon.stub(DB, 'getItem', function (params) {
-        return Promise.resolve({
-            Item: getValues()
+    sinon.stub(DB, 'updateItem', function (params) {
+        const body = getBody().message.chat;
+        expect(params).to.deep.eql({
+            Item: {
+                username: body.username,
+                active: false
+            }
         });
+        return Promise.resolve();
     });
 
     sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
         expect(chatId).to.be.eql(getBody().message.chat.id);
+        expect(text.startsWith('Removed user')).to.be.eql(true);
         return Promise.resolve({});
     });
 
-    return [deleteEnv, DB.getItem.restore, Telegram.sendMessage.restore];
+    return [deleteEnv, DB.updateItem.restore, Telegram.sendMessage.restore];
 };

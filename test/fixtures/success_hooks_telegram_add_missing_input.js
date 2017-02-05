@@ -6,6 +6,7 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 
 const Status = require('../../lib/enum/status');
+const DB = require('../../lib/db');
 const Telegram = require('../../lib/telegram');
 
 function getApiKey() {
@@ -23,12 +24,11 @@ function deleteEnv() {
 function getBody() {
     return {
         message: {
-            text: '/help',
+            text: '/add',
             chat: {
                 id: 1,
                 username: 'user',
-                first_name: 'John',
-                last_name: 'Smith'
+                first_name: 'John'
             }
         }
     };
@@ -37,7 +37,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/command',
+            resourcePath: '/hooks/telegram',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -52,7 +52,7 @@ module.exports.getInput = function () {
 
 module.exports.getAssertions = function () {
     return {
-        meta: Status.get()['500'],
+        meta: Status.get()['200'],
         data: {}
     };
 };
@@ -60,11 +60,24 @@ module.exports.getAssertions = function () {
 module.exports.mock = function () {
     setEnv();
 
-    sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
-        expect(chatId).to.be.eql(getBody().message.chat.id);
-        expect(text.startsWith('Welcome to KnightWatcher!')).to.be.eql(true);
-        return Promise.reject(new Error('Fail!'));
+    sinon.stub(DB, 'putItem', function (params) {
+        const body = getBody().message.chat;
+        expect(params).to.deep.eql({
+            Item: {
+                username: body.username,
+                firstname: body.first_name,
+                chatId: body.id,
+                active: true
+            }
+        });
+        return Promise.resolve();
     });
 
-    return [deleteEnv, Telegram.sendMessage.restore];
+    sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
+        expect(chatId).to.be.eql(getBody().message.chat.id);
+        expect(text.startsWith('Added user')).to.be.eql(true);
+        return Promise.resolve({});
+    });
+
+    return [deleteEnv, DB.putItem.restore, Telegram.sendMessage.restore];
 };

@@ -37,7 +37,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/command',
+            resourcePath: '/hooks/telegram',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -52,7 +52,7 @@ module.exports.getInput = function () {
 
 module.exports.getAssertions = function () {
     return {
-        meta: Status.get()['200'],
+        meta: Status.get()['500'],
         data: {}
     };
 };
@@ -63,7 +63,7 @@ module.exports.mock = function () {
     sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
         expect(chatId).to.be.eql(getBody().message.chat.id);
         expect(text.startsWith('Welcome to KnightWatcher!')).to.be.eql(true);
-        return Promise.resolve({});
+        return Promise.reject(new Error('Fail!'));
     });
 
     return [deleteEnv, Telegram.sendMessage.restore];

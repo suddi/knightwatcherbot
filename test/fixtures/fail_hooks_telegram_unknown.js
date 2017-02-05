@@ -23,7 +23,7 @@ function deleteEnv() {
 function getBody() {
     return {
         message: {
-            text: '/start',
+            text: '/unknown',
             chat: {
                 id: 1,
                 username: 'user',
@@ -37,7 +37,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/command',
+            resourcePath: '/hooks/telegram',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -62,7 +62,7 @@ module.exports.mock = function () {
 
     sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
         expect(chatId).to.be.eql(getBody().message.chat.id);
-        expect(text.startsWith('Welcome to KnightWatcher!')).to.be.eql(true);
+        expect(text.startsWith('I don\'t know what to do with that.')).to.be.eql(true);
         return Promise.reject(new Error('Fail!'));
     });
 

@@ -6,7 +6,6 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 
 const Status = require('../../lib/enum/status');
-const DB = require('../../lib/db');
 const Telegram = require('../../lib/telegram');
 
 function getApiKey() {
@@ -24,7 +23,7 @@ function deleteEnv() {
 function getBody() {
     return {
         message: {
-            text: '/remove',
+            text: '/start',
             chat: {
                 id: 1,
                 username: 'user',
@@ -38,7 +37,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/command',
+            resourcePath: '/hooks/telegram',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -53,7 +52,7 @@ module.exports.getInput = function () {
 
 module.exports.getAssertions = function () {
     return {
-        meta: Status.get()['200'],
+        meta: Status.get()['500'],
         data: {}
     };
 };
@@ -61,22 +60,11 @@ module.exports.getAssertions = function () {
 module.exports.mock = function () {
     setEnv();
 
-    sinon.stub(DB, 'updateItem', function (params) {
-        const body = getBody().message.chat;
-        expect(params).to.deep.eql({
-            Item: {
-                username: body.username,
-                active: false
-            }
-        });
-        return Promise.resolve();
-    });
-
     sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
         expect(chatId).to.be.eql(getBody().message.chat.id);
-        expect(text.startsWith('Removed user')).to.be.eql(true);
-        return Promise.resolve({});
+        expect(text.startsWith('Welcome to KnightWatcher!')).to.be.eql(true);
+        return Promise.reject(new Error('Fail!'));
     });
 
-    return [deleteEnv, DB.updateItem.restore, Telegram.sendMessage.restore];
+    return [deleteEnv, Telegram.sendMessage.restore];
 };
