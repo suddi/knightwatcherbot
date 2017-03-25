@@ -60,7 +60,7 @@
     "nsp": "^2.0.0",
     "ntl": "^1.0.0",
     "rewire": "^2.0.0",
-    "sinon": "^1.0.0"
+    "sinon": "^2.0.0"
   },
   "eslintConfig": {
     "extends": "suddi/backend"
