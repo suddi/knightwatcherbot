@@ -112,7 +112,7 @@ describe('Unit tests for lib/db', function () {
             };
             const output = yield runTest();
 
-            expect(output).to.deep.eql(getExpectedResult());
+            expect(JSON.stringify(output)).to.be.eql(JSON.stringify(getExpectedResult()));
         });
     });
 
@@ -182,7 +182,7 @@ describe('Unit tests for lib/db', function () {
             };
             const output = yield runTest();
 
-            expect(output).to.deep.eql(getExpectedResult());
+            expect(JSON.stringify(output)).to.deep.eql(JSON.stringify(getExpectedResult()));
         });
     });
 
@@ -252,7 +252,7 @@ describe('Unit tests for lib/db', function () {
             };
             const output = yield runTest();
 
-            expect(output).to.deep.eql(getExpectedResult());
+            expect(JSON.stringify(output)).to.deep.eql(JSON.stringify(getExpectedResult()));
         });
     });
 });
