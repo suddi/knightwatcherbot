@@ -60,7 +60,7 @@ module.exports.getAssertions = function () {
 module.exports.mock = function () {
     setEnv();
 
-    sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
+    sinon.stub(Telegram, 'sendMessage').callsFake(function (chatId, text) {
         expect(chatId).to.be.eql(getBody().message.chat.id);
         expect(text.startsWith('I don\'t know what to do with that.')).to.be.eql(true);
         return Promise.reject(new Error('Fail!'));
