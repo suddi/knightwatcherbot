@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 function npmtest() {
     rm -rf node_modules
