@@ -69,13 +69,13 @@ module.exports.mock = function () {
         return key ? value[key] : value;
     };
 
-    sinon.stub(DB, 'getItem', function (params) {
+    sinon.stub(DB, 'getItem').callsFake(function (params) {
         return Promise.resolve({
             Item: getValues()
         });
     });
 
-    sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
+    sinon.stub(Telegram, 'sendMessage').callsFake(function (chatId, text) {
         expect(chatId).to.be.eql(getBody().message.chat.id);
         return Promise.resolve({});
     });

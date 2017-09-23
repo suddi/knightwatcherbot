@@ -1,7 +1,7 @@
 {
   "name": "knightwatcherbot",
   "description": "Get alerts via telegram for any system alerts",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "homepage": "https://github.com/suddi/knightwatcherbot",
   "author": {
@@ -50,17 +50,17 @@
     "chai": "^4.0.0",
     "claudia": "^2.0.0",
     "co-mocha": "^1.0.0",
-    "eslint": "^3.0.0",
-    "eslint-config-suddi": "^3.0.0",
-    "express": "^4.14.0",
-    "husky": "^0.13.0",
+    "eslint": "^4.0.0",
+    "eslint-config-suddi": "^4.0.0",
+    "express": "^4.0.0",
+    "husky": "^0.14.0",
     "istanbul": "^0.4.0",
-    "jsdoctest": "git+ssh://git@github.com:yamadapc/jsdoctest.git",
+    "jsdoctest": "^1.0.0",
     "mocha": "^3.0.0",
     "nsp": "^2.0.0",
     "ntl": "^1.0.0",
     "rewire": "^2.0.0",
-    "sinon": "^2.0.0"
+    "sinon": "^3.0.0"
   },
   "eslintConfig": {
     "extends": "suddi/backend"

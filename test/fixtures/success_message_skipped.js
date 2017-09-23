@@ -42,7 +42,7 @@ module.exports.mock = function () {
         return key ? value[key] : value;
     };
 
-    sinon.stub(DB, 'getItem', function (params) {
+    sinon.stub(DB, 'getItem').callsFake(function (params) {
         expect(params).to.deep.eql({
             Key: {
                 username: getBody().username

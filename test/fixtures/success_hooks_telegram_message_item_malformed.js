@@ -61,7 +61,7 @@ module.exports.getAssertions = function () {
 module.exports.mock = function () {
     setEnv();
 
-    sinon.stub(DB, 'getItem', function (params) {
+    sinon.stub(DB, 'getItem').callsFake(function (params) {
         expect(params).to.deep.eql({
             Key: {
                 username: getBody().message.chat.username
@@ -70,7 +70,7 @@ module.exports.mock = function () {
         return Promise.resolve({});
     });
 
-    sinon.stub(Telegram, 'sendMessage', function (chatId, text) {
+    sinon.stub(Telegram, 'sendMessage').callsFake(function (chatId, text) {
         expect(chatId).to.be.eql(getBody().message.chat.id);
         expect(text.startsWith('Failed to send message')).to.be.eql(true);
         return Promise.resolve();

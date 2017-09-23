@@ -40,7 +40,7 @@ describe('Unit tests for lib/telegram', function () {
                     answer: 42
                 };
             };
-            sinon.stub(axios, 'post', function () {
+            sinon.stub(axios, 'post').callsFake(function () {
                 return getExpectedResult();
             });
 
