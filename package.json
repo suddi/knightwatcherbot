@@ -19,7 +19,7 @@
   "files": [
     "lib"
   ],
-  "main": "lib/index.js",
+  "main": "lib/app.js",
   "license": "Apache-2.0",
   "keywords": [],
   "engines": {
@@ -35,7 +35,7 @@
     "lint": "eslint .",
     "prepush": "npm test",
     "security-check": "nsp check --output summary",
-    "start": "claudia-local-api --app-module lib/app | bunyan -o short",
+    "start": "claudia-local-api --api-module lib/app | bunyan -o short",
     "test": "npm run lint && npm run security-check && npm run doctest && npm run coverage && npm run check-coverage"
   },
   "dependencies": {
