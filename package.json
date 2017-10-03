@@ -35,7 +35,7 @@
     "lint": "eslint .",
     "prepush": "npm test",
     "security-check": "nsp check --output summary",
-    "start": "claudia-local-api --api-module lib/app | bunyan -o short",
+    "start": "claudia-local-api --api-module lib/app | bunyan --output short",
     "test": "npm run lint && npm run security-check && npm run doctest && npm run coverage && npm run check-coverage"
   },
   "dependencies": {
