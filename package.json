@@ -35,7 +35,7 @@
     "lint": "eslint .",
     "prepush": "npm test",
     "security-check": "nsp check --output summary",
-    "start": "ntl",
+    "start": "claudia-local-api --app-module lib | bunyan -o short",
     "test": "npm run lint && npm run security-check && npm run doctest && npm run coverage && npm run check-coverage",
     "webhook": "node scripts/test_webhook.js"
   },
@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "body-parser": "^1.0.0",
+    "bunyan": "^1.8.12",
     "chai": "^4.0.0",
     "claudia": "^2.0.0",
     "co-mocha": "^1.0.0",

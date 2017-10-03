@@ -7,7 +7,7 @@ const path = require('path');
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const KnightWatcherBot = require('../lib');
+const KnightWatcherBot = require('../lib/app');
 
 function getFixturesPath(filename) {
     const dir = 'fixtures';
