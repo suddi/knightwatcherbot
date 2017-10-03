@@ -15,4 +15,4 @@ Get alerts via telegram for any system alerts.
 
 ## Usage
 
-Coming soon.
+Coming soon...
