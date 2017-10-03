@@ -1,13 +1,7 @@
 'use strict';
 
 /* eslint camelcase: off */
-
-const expect = require('chai').expect;
-const sinon = require('sinon');
-
-const Config = require('../../lib/config');
 const Status = require('../../lib/enum/status');
-const Telegram = require('../../lib/telegram');
 
 function getBody() {
     return {
