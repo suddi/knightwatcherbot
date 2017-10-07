@@ -29,13 +29,13 @@
   "scripts": {
     "check-coverage": "istanbul check-coverage",
     "coverage": "istanbul cover _mocha -- --opts test/options/default.opts",
-    "deploy-init": "claudia create --name knightwatcherbot --region ap-northeast-1 --api-module lib/app",
+    "deploy-init": "claudia create --name knightwatcherbot --region ap-northeast-1 --api-module lib",
     "deploy": "claudia update --version production",
     "doctest": "mocha --opts test/options/doctest.opts",
     "lint": "eslint .",
     "prepush": "npm test",
     "security-check": "nsp check --output summary",
-    "start": "claudia-local-api --api-module lib/app | bunyan --output short",
+    "start": "claudia-local-api --api-module lib | bunyan --output short",
     "test": "npm run lint && npm run security-check && npm run doctest && npm run coverage && npm run check-coverage"
   },
   "dependencies": {

@@ -6,6 +6,6 @@
   },
   "api": {
     "id": "h0mign4q98",
-    "module": "lib/app"
+    "module": "lib"
   }
 }
