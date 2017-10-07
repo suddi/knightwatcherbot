@@ -13,6 +13,6 @@ module.exports.getInput = function () {
 };
 
 module.exports.getAssertions = function () {
-    return fs.readFileSync(path.join(__dirname, '..', '..', 'knightwatcherbot.png'))
+    return fs.readFileSync(path.join(__dirname, '..', '..', 'lib', 'logo.png'))
         .toString('base64');
 };
