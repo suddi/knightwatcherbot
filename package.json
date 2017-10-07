@@ -28,9 +28,8 @@
   },
   "scripts": {
     "check-coverage": "istanbul check-coverage",
+    "cost-of-modules": "cost-of-modules --no-install",
     "coverage": "istanbul cover _mocha -- --opts test/options/default.opts",
-    "deploy-init": "claudia create --name knightwatcherbot --region ap-northeast-1 --api-module lib",
-    "deploy": "claudia update --version production",
     "doctest": "mocha --opts test/options/doctest.opts",
     "lint": "eslint .",
     "prepush": "npm test",
@@ -49,6 +48,7 @@
     "claudia": "^2.0.0",
     "claudia-local-api": "^1.0.0",
     "co-mocha": "^1.0.0",
+    "cost-of-modules": "^1.0.1",
     "eslint": "^4.0.0",
     "eslint-config-suddi": "^4.0.0",
     "husky": "^0.14.0",
