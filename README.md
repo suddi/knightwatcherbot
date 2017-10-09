@@ -13,6 +13,12 @@
 
 AWS Lambda function to get alerts via telegram for system alerts
 
+## Installation
+
+````
+npm install
+````
+
 ## Usage
 
 To run the API locally:
@@ -21,7 +27,7 @@ To run the API locally:
 npm start
 ````
 
-To create the deployment with `claudia`
+To create the deployment with `claudia`:
 
 ````
 claudia create --name <NAME> --region <AWS_REGION> --api-module lib
@@ -29,8 +35,10 @@ claudia create --name <NAME> --region <AWS_REGION> --api-module lib
 
 This will generate a config file named `claudia.json`
 
-To deploy to the same function afterwards:
+To deploy the same function afterwards to AWS Lambda:
 
 ````
 claudia update
 ````
+
+**NOTE:** `claudia` is a `devDependency` within this package, you will need to reference it within `node_modules` if it is not globally installed
