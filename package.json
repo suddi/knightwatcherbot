@@ -38,7 +38,7 @@
     "test": "npm run lint && npm run security-check && npm run doctest && npm run coverage && npm run check-coverage"
   },
   "dependencies": {
-    "axios": "^0.17.0",
+    "axios": "^0.18.0",
     "claudia-api-builder": "^2.0.0",
     "dynamodb-doc": "^1.0.0",
     "lodash": "^4.0.0"
