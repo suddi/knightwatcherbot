@@ -14,13 +14,13 @@ function run () {
             npmtest 6
             ;;
         1)
-            npmtest 4
-            ;;
-        2)
             npmtest 7
             ;;
-        3)
+        2)
             npmtest 8
+            ;;
+        3)
+            npmtest 9
             ;;
         *)
             ;;
