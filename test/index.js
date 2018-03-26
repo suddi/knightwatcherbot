@@ -7,7 +7,7 @@ const path = require('path');
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const KnightWatcherBot = require('../lib/app');
+const KnightWatcherBot = require('../lib');
 
 function getFixturesPath(filename) {
     const dir = 'fixtures';
@@ -27,14 +27,26 @@ function revert(revertFunctions) {
     });
 }
 
+function safeJsonParse(body) {
+    try {
+        return JSON.parse(body);
+    } catch (error) {
+        return body;
+    }
+}
+
 function assert(assertions, result) {
-    const responseBody = result.body ? JSON.parse(result.body) : {};
+    const responseBody = safeJsonParse(result.body);
+    if (_.isString(responseBody)) {
+        return expect(responseBody).to.be.eql(assertions);
+    }
+
     _.map(assertions, function (body, expectedValue, bodyPath) {
         const value = _.get(body, bodyPath);
         if (typeof value === 'object') {
             expect(value).to.deep.eql(expectedValue);
         } else {
-            expect(value).to.eql(expectedValue);
+            expect(value).to.be.eql(expectedValue);
         }
         return true;
     }.bind(null, responseBody));

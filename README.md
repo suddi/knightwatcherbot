@@ -1,8 +1,8 @@
 # knightwatcherbot
 
-[![CircleCI](https://img.shields.io/circleci/project/suddi/knightwatcherbot.svg)](https://circleci.com/gh/suddi/knightwatcherbot)
+[![CircleCI](https://img.shields.io/circleci/project/suddi/knightwatcherbot/master.svg)](https://circleci.com/gh/suddi/knightwatcherbot)
 [![codecov](https://codecov.io/gh/suddi/knightwatcherbot/branch/master/graph/badge.svg)](https://codecov.io/gh/suddi/knightwatcherbot)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/462b2e476c1641b0ac4ade17a6064a8d)](https://www.codacy.com/app/Suddi/knightwatcherbot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=suddi/knightwatcherbot&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/462b2e476c1641b0ac4ade17a6064a8d)](https://www.codacy.com/app/Suddi/knightwatcherbot)
 [![Greenkeeper badge](https://badges.greenkeeper.io/suddi/knightwatcherbot.svg)](https://greenkeeper.io/)
 [![David](https://img.shields.io/david/suddi/knightwatcherbot.svg)](https://david-dm.org/suddi/knightwatcherbot)
 [![David](https://img.shields.io/david/dev/suddi/knightwatcherbot.svg)](https://david-dm.org/suddi/knightwatcherbot?type=dev)
@@ -11,8 +11,34 @@
 
 [![codecov](https://codecov.io/gh/suddi/knightwatcherbot/branch/master/graphs/commits.svg)](https://codecov.io/gh/suddi/knightwatcherbot)
 
-Get alerts via telegram for any system alerts.
+AWS Lambda function to get alerts via telegram for system alerts
+
+## Installation
+
+````
+npm install
+````
 
 ## Usage
 
-Coming soon...
+To run the API locally:
+
+````
+npm start
+````
+
+To create the deployment with `claudia`:
+
+````
+claudia create --name <NAME> --region <AWS_REGION> --api-module lib
+````
+
+This will generate a config file named `claudia.json`
+
+To deploy the same function afterwards to AWS Lambda:
+
+````
+claudia update
+````
+
+**NOTE:** `claudia` is a `devDependency` within this package, you will need to reference it within `node_modules` if it is not globally installed
