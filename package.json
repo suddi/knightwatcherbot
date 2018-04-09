@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "chai": "^4.0.0",
-    "claudia": "^3.0.0",
+    "claudia": "^4.0.0",
     "claudia-local-api": "^1.0.0",
     "co-mocha": "^1.0.0",
     "cost-of-modules": "^1.0.1",
