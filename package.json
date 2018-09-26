@@ -51,7 +51,7 @@
     "cost-of-modules": "^1.0.1",
     "eslint": "^4.0.0",
     "eslint-config-suddi": "^4.0.0",
-    "husky": "^0.14.0",
+    "husky": "^1.0.0",
     "istanbul": "^0.4.0",
     "jsdoctest": "^1.0.0",
     "mocha": "^5.1.0",
