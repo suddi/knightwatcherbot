@@ -1,6 +1,6 @@
 # knightwatcherbot
 
-[![CircleCI](https://img.shields.io/circleci/project/suddi/knightwatcherbot/master.svg)](https://circleci.com/gh/suddi/knightwatcherbot)
+[![CircleCI](https://circleci.com/gh/suddi/knightwatcherbot.svg?style=svg)](https://circleci.com/gh/suddi/knightwatcherbot)
 [![codecov](https://codecov.io/gh/suddi/knightwatcherbot/branch/master/graph/badge.svg)](https://codecov.io/gh/suddi/knightwatcherbot)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/462b2e476c1641b0ac4ade17a6064a8d)](https://www.codacy.com/app/Suddi/knightwatcherbot)
 [![David](https://img.shields.io/david/suddi/knightwatcherbot.svg)](https://david-dm.org/suddi/knightwatcherbot)
