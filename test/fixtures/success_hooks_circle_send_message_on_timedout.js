@@ -24,7 +24,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/hooks/circle',
+            resourcePath: '/v1/hooks/circle',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'

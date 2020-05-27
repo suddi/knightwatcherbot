@@ -30,6 +30,7 @@
     "cost-of-modules": "cost-of-modules --no-install",
     "coverage": "nyc mocha",
     "lint": "eslint .",
+    "pack": "claudia pack --output build/knightwatcherbot.zip --source lib --no-optional-dependencies",
     "security-check": "npm audit --audit-level high || true",
     "start": "claudia-local-api --api-module lib | bunyan --output short",
     "test": "npm run lint && npm run security-check && npm run coverage",
@@ -38,7 +39,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "claudia-api-builder": "^4.0.0",
+    "claudia-api-builder": "^4.1.2",
     "dynamodb-doc": "^1.0.0",
     "lodash": "^4.17.15"
   },

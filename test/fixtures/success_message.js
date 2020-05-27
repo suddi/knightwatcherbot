@@ -17,7 +17,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/message',
+            resourcePath: '/v1/message',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -37,8 +37,8 @@ module.exports.getAssertions = function () {
 module.exports.mock = function () {
     const getValues = function (key) {
         const value = {
-            active: true,
-            chatId: 1
+            chatId: 1,
+            active: true
         };
         return key ? value[key] : value;
     };
@@ -46,7 +46,8 @@ module.exports.mock = function () {
     sinon.stub(DB, 'getItem').callsFake(function (params) {
         expect(params).to.deep.eql({
             Key: {
-                username: getBody().username
+                username: getBody().username,
+                active: true
             }
         });
         return Promise.resolve({

@@ -16,7 +16,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/message',
+            resourcePath: '/v1/message',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -37,7 +37,8 @@ module.exports.mock = function () {
     sinon.stub(DB, 'getItem').callsFake(function (params) {
         expect(params).to.deep.eql({
             Key: {
-                username: getBody().username
+                username: getBody().username,
+                active: true
             }
         });
         return Promise.reject(new Error('Fail!'));

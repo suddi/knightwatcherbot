@@ -38,7 +38,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/hooks/telegram',
+            resourcePath: '/v1/hooks/telegram',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -64,7 +64,8 @@ module.exports.mock = function () {
     sinon.stub(DB, 'getItem').callsFake(function (params) {
         expect(params).to.deep.eql({
             Key: {
-                username: getBody().message.chat.username
+                chatId: getBody().message.chat.id,
+                active: true
             }
         });
         return Promise.resolve({});

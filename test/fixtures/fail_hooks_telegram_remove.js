@@ -38,7 +38,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/hooks/telegram',
+            resourcePath: '/v1/hooks/telegram',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ module.exports.mock = function () {
         const body = getBody().message.chat;
         expect(params).to.deep.eql({
             Item: {
-                username: body.username,
+                chatId: body.id,
                 active: false
             }
         });

@@ -16,7 +16,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/message',
+            resourcePath: '/v1/message',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -28,29 +28,20 @@ module.exports.getInput = function () {
 
 module.exports.getAssertions = function () {
     return {
-        meta: Status.get()['200'],
+        meta: Status.get()['500'],
         data: {}
     };
 };
 
 module.exports.mock = function () {
-    const getValues = function (key) {
-        const value = {
-            active: false,
-            chatId: 1
-        };
-        return key ? value[key] : value;
-    };
-
     sinon.stub(DB, 'getItem').callsFake(function (params) {
         expect(params).to.deep.eql({
             Key: {
-                username: getBody().username
+                username: getBody().username,
+                active: true
             }
         });
-        return Promise.resolve({
-            Item: getValues()
-        });
+        return Promise.reject();
     });
 
     return [DB.getItem.restore];
