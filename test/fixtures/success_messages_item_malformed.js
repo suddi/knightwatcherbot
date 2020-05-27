@@ -38,7 +38,7 @@ module.exports.mock = function (obj) {
         expect(params).to.deep.eql({
             Key: {
                 username: { S: getBody().username },
-                active: { N: 1 }
+                active: { N: '1' }
             }
         });
         return Promise.resolve({});

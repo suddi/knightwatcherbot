@@ -37,8 +37,8 @@ module.exports.getAssertions = function () {
 module.exports.mock = function () {
     const getValues = function (key) {
         const value = {
-            chatId: { N: 1 },
-            active: { N: 1 }
+            chatId: { N: '1' },
+            active: { N: '1' }
         };
         return key ? value[key] : value;
     };
@@ -46,8 +46,8 @@ module.exports.mock = function () {
     sinon.stub(DB, 'getItem').callsFake(function (params) {
         expect(params).to.deep.eql({
             Key: {
-                username: { S: getBody().username },
-                active: { N: 1 }
+                username: { S: getBody().username.toString() },
+                active: { N: '1' }
             }
         });
         return Promise.resolve({
