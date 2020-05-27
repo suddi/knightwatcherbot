@@ -36,6 +36,8 @@ module.exports.getAssertions = function () {
 };
 
 module.exports.mock = function () {
+    const config = Config.get();
+
     const getValues = function (key) {
         const value = {
             chatId: { N: '1' },
@@ -46,7 +48,7 @@ module.exports.mock = function () {
 
     sinon.stub(DB, 'query').callsFake(function (params) {
         expect(params).to.deep.eql({
-            IndexName: Config.USERNAME_INDEX,
+            IndexName: config.USERNAME_INDEX,
             ExpressionAttributeValues: {
                 ':username': {
                     S: getBody().username
@@ -59,7 +61,7 @@ module.exports.mock = function () {
             KeyConditionExpression: 'username = :username AND active = :active'
         });
         return Promise.resolve({
-            Item: getValues()
+            Items: [getValues()]
         });
     });
 

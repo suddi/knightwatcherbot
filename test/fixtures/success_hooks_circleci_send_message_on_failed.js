@@ -42,10 +42,10 @@ module.exports.getAssertions = function () {
 };
 
 module.exports.mock = function () {
-    const env = Config.getEnv();
+    const config = Config.get();
 
     sinon.stub(Telegram, 'sendMessage').callsFake(function (chatId, text) {
-        expect(chatId).to.be.eql(env.DEFAULT_NOTIFIER);
+        expect(chatId).to.be.eql(config.DEFAULT_NOTIFIER);
         expect(text.startsWith('Failed build on CircleCI')).to.be.eql(true);
         return Promise.resolve({});
     });

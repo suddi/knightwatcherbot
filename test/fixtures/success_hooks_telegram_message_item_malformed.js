@@ -84,9 +84,10 @@ module.exports.mock = function () {
     });
 
     sinon.stub(DB, 'query').callsFake(function (params) {
+        const config = Config.get();
         const recipient = (getBody().message.text.split(' ')[1] || '').split(/\n/)[0] || '';
         expect(params).to.deep.eql({
-            IndexName: Config.USERNAME_INDEX,
+            IndexName: config.USERNAME_INDEX,
             ExpressionAttributeValues: {
                 ':username': {
                     S: recipient

@@ -35,9 +35,10 @@ module.exports.getAssertions = function () {
 };
 
 module.exports.mock = function (obj) {
+    const config = Config.get();
     sinon.stub(DB, 'query').callsFake(function (params) {
         expect(params).to.deep.eql({
-            IndexName: Config.USERNAME_INDEX,
+            IndexName: config.USERNAME_INDEX,
             ExpressionAttributeValues: {
                 ':username': {
                     S: getBody().username

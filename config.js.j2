@@ -1,0 +1,16 @@
+'use strict';
+
+function get() {
+    return {
+        REGION: process.env.AWS_REGION || '',
+        TABLENAME: '{{ knightwatcherbot_config_tablename }}',
+        USERNAME_INDEX: '{{ knightwatcherbot_config_table_username_index }}',
+
+        TELEGRAM_API_KEY: '{{ knightwatcherbot_config_telegram_api_key }}',
+        DEFAULT_NOTIFIER: {{ telegram_users.suddi.chat_id }}
+    };
+}
+
+module.exports = {
+    get: get
+};
