@@ -19,7 +19,7 @@
   "files": [
     "lib"
   ],
-  "main": "lib/app.js",
+  "main": "lib/index.js",
   "license": "Apache-2.0",
   "keywords": [],
   "engines": {
