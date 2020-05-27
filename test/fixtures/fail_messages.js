@@ -3,8 +3,9 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const Status = require('../../lib/enum/status');
+const Config = require('../../lib/config');
 const DB = require('../../lib/db');
+const Status = require('../../lib/enum/status');
 
 function getBody() {
     return {
@@ -34,15 +35,22 @@ module.exports.getAssertions = function () {
 };
 
 module.exports.mock = function () {
-    sinon.stub(DB, 'getItem').callsFake(function (params) {
+    sinon.stub(DB, 'query').callsFake(function (params) {
         expect(params).to.deep.eql({
-            Key: {
-                username: { S: getBody().username },
-                active: { N: '1' }
-            }
+            IndexName: Config.USERNAME_INDEX,
+            ExpressionAttributeValues: {
+                ':username': {
+                    S: getBody().username
+                },
+                ':active': {
+                    N: '1'
+                }
+            },
+            ProjectionExpression: 'chatId',
+            KeyConditionExpression: 'username = :username AND active = :active'
         });
         return Promise.reject(new Error('Fail!'));
     });
 
-    return [DB.getItem.restore];
+    return [DB.query.restore];
 };

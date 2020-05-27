@@ -5,8 +5,8 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const Status = require('../../lib/enum/status');
 const DB = require('../../lib/db');
+const Status = require('../../lib/enum/status');
 const Telegram = require('../../lib/telegram');
 
 function getApiKey() {
@@ -69,7 +69,10 @@ module.exports.mock = function () {
                 firstName: { S: body.first_name },
                 lastName: { S: '' },
                 active: { N: '1' }
-            }
+            },
+            ReturnConsumedCapacity: 'NONE',
+            ReturnItemCollectionMetrics: 'NONE',
+            ReturnValues: 'NONE'
         });
         return Promise.resolve();
     });

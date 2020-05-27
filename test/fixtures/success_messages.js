@@ -3,8 +3,9 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const Status = require('../../lib/enum/status');
+const Config = require('../../lib/config');
 const DB = require('../../lib/db');
+const Status = require('../../lib/enum/status');
 const Telegram = require('../../lib/telegram');
 
 function getBody() {
@@ -43,12 +44,19 @@ module.exports.mock = function () {
         return key ? value[key] : value;
     };
 
-    sinon.stub(DB, 'getItem').callsFake(function (params) {
+    sinon.stub(DB, 'query').callsFake(function (params) {
         expect(params).to.deep.eql({
-            Key: {
-                username: { S: getBody().username.toString() },
-                active: { N: '1' }
-            }
+            IndexName: Config.USERNAME_INDEX,
+            ExpressionAttributeValues: {
+                ':username': {
+                    S: getBody().username
+                },
+                ':active': {
+                    N: '1'
+                }
+            },
+            ProjectionExpression: 'chatId',
+            KeyConditionExpression: 'username = :username AND active = :active'
         });
         return Promise.resolve({
             Item: getValues()
@@ -61,5 +69,5 @@ module.exports.mock = function () {
         return Promise.resolve({});
     });
 
-    return [DB.getItem.restore, Telegram.sendMessage.restore];
+    return [DB.query.restore, Telegram.sendMessage.restore];
 };

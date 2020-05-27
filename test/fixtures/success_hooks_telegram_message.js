@@ -5,8 +5,9 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const Status = require('../../lib/enum/status');
+const Config = require('../../lib/config');
 const DB = require('../../lib/db');
+const Status = require('../../lib/enum/status');
 const Telegram = require('../../lib/telegram');
 
 function getApiKey() {
@@ -70,6 +71,33 @@ module.exports.mock = function () {
     };
 
     sinon.stub(DB, 'getItem').callsFake(function (params) {
+        const body = getBody().message.chat;
+        expect(params).to.deep.eql({
+            Key: {
+                chatId: { N: body.id.toString() },
+                active: { N: '1' }
+            }
+        });
+        return Promise.resolve({
+            Item: getValues()
+        });
+    });
+
+    sinon.stub(DB, 'query').callsFake(function (params) {
+        const recipient = (getBody().message.text.split(' ')[1] || '').split(/\n/)[0] || '';
+        expect(params).to.deep.eql({
+            IndexName: Config.USERNAME_INDEX,
+            ExpressionAttributeValues: {
+                ':username': {
+                    S: recipient
+                },
+                ':active': {
+                    N: '1'
+                }
+            },
+            ProjectionExpression: 'chatId',
+            KeyConditionExpression: 'username = :username AND active = :active'
+        });
         return Promise.resolve({
             Item: getValues()
         });
@@ -80,5 +108,5 @@ module.exports.mock = function () {
         return Promise.resolve({});
     });
 
-    return [deleteEnv, DB.getItem.restore, Telegram.sendMessage.restore];
+    return [deleteEnv, DB.getItem.restore, DB.query.restore, Telegram.sendMessage.restore];
 };

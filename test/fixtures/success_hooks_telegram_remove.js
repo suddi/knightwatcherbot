@@ -5,8 +5,8 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const Status = require('../../lib/enum/status');
 const DB = require('../../lib/db');
+const Status = require('../../lib/enum/status');
 const Telegram = require('../../lib/telegram');
 
 function getApiKey() {
@@ -64,10 +64,18 @@ module.exports.mock = function () {
     sinon.stub(DB, 'updateItem').callsFake(function (params) {
         const body = getBody().message.chat;
         expect(params).to.deep.eql({
-            Item: {
+            Key: {
                 chatId: { N: body.id.toString() },
-                active: { N: '0' }
-            }
+                active: { N: '1' }
+            },
+            ExpressionAttributeNames: {
+                '#active': 'active'
+            },
+            ExpressionAttributeValues: {
+                ':active': { N: '0' }
+            },
+            ReturnValues: 'NONE',
+            UpdateExpression: 'SET #active = :active'
         });
         return Promise.resolve();
     });

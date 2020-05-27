@@ -255,4 +255,74 @@ describe('Unit tests for lib/db', function () {
             expect(JSON.stringify(output)).to.deep.eql(JSON.stringify(getExpectedResult()));
         });
     });
+
+    context('Testing query', function () {
+        it('CASE 1: query gets item successfully', function* () {
+            const getParams = function () {
+                return {
+                    answer: 42
+                };
+            };
+            const getExpectedResult = function () {
+                return {
+                    answer: 41
+                };
+            };
+
+            const runTest = function* () {
+                const revert = DB
+                    .__set__('client.query', function (p, callback) {
+                        expect(p).to.deep.eql({
+                            TableName: getTableName(),
+                            answer: getParams().answer
+                        });
+                        return callback(null, getExpectedResult());
+                    });
+                try {
+                    const output = yield DB.query(getParams());
+                    revert();
+                    return output;
+                } catch (error) {
+                    revert();
+                    return error;
+                }
+            };
+            const output = yield runTest();
+
+            expect(output).to.deep.eql(getExpectedResult());
+        });
+
+        it('CASE 2: query fails', function* () {
+            const getParams = function () {
+                return {
+                    answer: 42
+                };
+            };
+            const getExpectedResult = function () {
+                return new Error('Fail!');
+            };
+
+            const runTest = function* () {
+                const revert = DB
+                    .__set__('client.query', function (p, callback) {
+                        expect(p).to.deep.eql({
+                            TableName: getTableName(),
+                            answer: getParams().answer
+                        });
+                        return callback(getExpectedResult());
+                    });
+                try {
+                    const output = yield DB.query(getParams());
+                    revert();
+                    return output;
+                } catch (error) {
+                    revert();
+                    return error;
+                }
+            };
+            const output = yield runTest();
+
+            expect(JSON.stringify(output)).to.deep.eql(JSON.stringify(getExpectedResult()));
+        });
+    });
 });
