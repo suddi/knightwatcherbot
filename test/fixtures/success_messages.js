@@ -5,6 +5,7 @@ const sinon = require('sinon');
 
 const Status = require('../../lib/enum/status');
 const DB = require('../../lib/db');
+const Telegram = require('../../lib/telegram');
 
 function getBody() {
     return {
@@ -16,7 +17,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/v1/message',
+            resourcePath: '/v1/messages',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -28,21 +29,37 @@ module.exports.getInput = function () {
 
 module.exports.getAssertions = function () {
     return {
-        meta: Status.get()['500'],
+        meta: Status.get()['200'],
         data: {}
     };
 };
 
-module.exports.mock = function (obj) {
+module.exports.mock = function () {
+    const getValues = function (key) {
+        const value = {
+            chatId: { N: 1 },
+            active: { N: 1 }
+        };
+        return key ? value[key] : value;
+    };
+
     sinon.stub(DB, 'getItem').callsFake(function (params) {
         expect(params).to.deep.eql({
             Key: {
-                username: getBody().username,
-                active: true
+                username: { S: getBody().username },
+                active: { N: 1 }
             }
         });
+        return Promise.resolve({
+            Item: getValues()
+        });
+    });
+
+    sinon.stub(Telegram, 'sendMessage').callsFake(function (chatId, text) {
+        expect(chatId).to.be.eql(getValues('chatId').N);
+        expect(text).to.be.eql(getBody().text);
         return Promise.resolve({});
     });
 
-    return [DB.getItem.restore];
+    return [DB.getItem.restore, Telegram.sendMessage.restore];
 };

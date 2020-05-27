@@ -64,10 +64,11 @@ module.exports.mock = function () {
         const body = getBody().message.chat;
         expect(params).to.deep.eql({
             Item: {
-                chatId: body.id,
-                username: body.username,
-                firstName: body.first_name,
-                active: true
+                chatId: { N: body.id },
+                username: { S: body.username },
+                firstName: { S: body.first_name },
+                lastName: { S: '' },
+                active: { N: 1 }
             }
         });
         return Promise.resolve();

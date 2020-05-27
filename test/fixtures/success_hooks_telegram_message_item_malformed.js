@@ -64,8 +64,8 @@ module.exports.mock = function () {
     sinon.stub(DB, 'getItem').callsFake(function (params) {
         expect(params).to.deep.eql({
             Key: {
-                chatId: getBody().message.chat.id,
-                active: true
+                chatId: { N: getBody().message.chat.id },
+                active: { N: 1 }
             }
         });
         return Promise.resolve({});

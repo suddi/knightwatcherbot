@@ -12,8 +12,7 @@ const Telegram = require('../../lib/telegram');
 function getBody() {
     return {
         payload: {
-            stop_time: '2017-10-01T20:00:00Z',
-            outcome: 'timedout',
+            outcome: 'failed',
             username: 'smith',
             reponame: 'simple-code',
             build_url: 'https://circleci.com/gh/circleci/simple-code/22'
@@ -24,7 +23,7 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/v1/hooks/circle',
+            resourcePath: '/v1/hooks/circleci',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'

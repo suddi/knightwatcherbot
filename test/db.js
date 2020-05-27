@@ -22,7 +22,7 @@ describe('Unit tests for lib/db', function () {
     context('Testing addTableName', function () {
         it('CASE 1: Works with correct input', function () {
             const params = {answer: 42};
-            const addTableName = DB.__get__('addTableName');
+            const addTableName = DB.__get__('extendParams');
             const expectedResult = {
                 TableName: getTableName(),
                 answer: params.answer
@@ -35,7 +35,7 @@ describe('Unit tests for lib/db', function () {
 
         it('CASE 1: Able to override TableName', function () {
             const params = {TableName: '456'};
-            const addTableName = DB.__get__('addTableName');
+            const addTableName = DB.__get__('extendParams');
             const expectedResult = {
                 TableName: params.TableName
             };

@@ -63,7 +63,7 @@ module.exports.mock = function () {
 
     const getValues = function (key) {
         const value = {
-            active: true,
+            active: 1,
             chatId: 1
         };
         return key ? value[key] : value;
