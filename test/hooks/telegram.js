@@ -2,15 +2,15 @@
 
 const _ = require('lodash');
 const chai = require('chai');
-const rewire = require('rewire');
 
-const Telegram = rewire('../../lib/hooks/telegram');
+const Telegram = require('../../lib/hooks/telegram');
 
 const expect = chai.expect;
 
-function applyAssertion({fn, help}, command) {
+function applyAssertion({fn, help, enabled}, command) {
     expect(fn).is.a('function');
     expect(help).is.a('string');
+    expect(enabled).is.a('boolean');
 }
 
 describe('Unit tests for lib/hooks/telegram.js', function () {
@@ -22,9 +22,7 @@ describe('Unit tests for lib/hooks/telegram.js', function () {
 
         _.map(botNames, function (botName, index) {
             it(`CASE ${index + 1}: Should return commands for ${botName}`, function () {
-                const getCommandFn = Telegram.__get__('getCommand');
-
-                const commands = getCommandFn(botName);
+                const commands = Telegram.getCommand(botName);
 
                 _.map(commands, applyAssertion);
             });

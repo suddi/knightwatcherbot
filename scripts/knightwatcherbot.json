@@ -1,0 +1,1 @@
+{"commands":[{"command":"add","description":"Add yourself as a user of Knightwatcher"},{"command":"remove","description":"Remove yourself as a user of Knightwatcher"},{"command":"start","description":"Get started with Knightwatcher"},{"command":"help","description":"Display help information"}]}
