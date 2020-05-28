@@ -8,6 +8,10 @@ const DB = require('../../lib/db');
 const Status = require('../../lib/enum/status');
 const Telegram = require('../../lib/telegram');
 
+function getBotName() {
+    return 'testbot';
+}
+
 function getBody() {
     return {
         username: 'user',
@@ -18,11 +22,14 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/v1/messages',
+            resourcePath: '/v1/{botName}/messages',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             }
+        },
+        pathParameters: {
+            botName: getBotName()
         },
         body: getBody()
     };
@@ -65,7 +72,8 @@ module.exports.mock = function () {
         });
     });
 
-    sinon.stub(Telegram, 'sendMessage').callsFake(function (chatId, text) {
+    sinon.stub(Telegram, 'sendMessage').callsFake(function (botName, chatId, text) {
+        expect(botName).to.be.eql(getBotName());
         expect(chatId).to.be.eql(getValues('chatId').N);
         expect(text).to.be.eql(getBody().text);
         return Promise.resolve({});

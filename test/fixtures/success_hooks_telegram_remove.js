@@ -9,16 +9,24 @@ const DB = require('../../lib/db');
 const Status = require('../../lib/enum/status');
 const Telegram = require('../../lib/telegram');
 
+function getBotName() {
+    return 'testbot';
+}
+
 function getApiKey() {
     return '123';
 }
 
 function setEnv() {
-    process.env.TELEGRAM_API_KEY = getApiKey();
+    const botName = getBotName().toUpperCase();
+    process.env[`${botName}_TELEGRAM_API_KEY`] = getApiKey();
+    process.env.WEBHOOK_API_KEY = getApiKey();
 }
 
 function deleteEnv() {
-    delete process.env.TELEGRAM_API_KEY;
+    const botName = getBotName().toUpperCase();
+    delete process.env[`${botName}_TELEGRAM_API_KEY`];
+    delete process.env.WEBHOOK_API_KEY;
 }
 
 function getBody() {
@@ -38,11 +46,15 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/v1/hooks/telegram',
+            resourcePath: '/v1/{botName}/hooks/{hookType}',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             }
+        },
+        pathParameters: {
+            botName: getBotName(),
+            hookType: 'telegram'
         },
         queryStringParameters: {
             apiKey: getApiKey()
@@ -80,7 +92,8 @@ module.exports.mock = function () {
         return Promise.resolve();
     });
 
-    sinon.stub(Telegram, 'sendMessage').callsFake(function (chatId, text) {
+    sinon.stub(Telegram, 'sendMessage').callsFake(function (botName, chatId, text) {
+        expect(botName).to.be.eql(getBotName());
         expect(chatId).to.be.eql(getBody().message.chat.id);
         expect(text.startsWith('Removed user')).to.be.eql(true);
         return Promise.resolve({});

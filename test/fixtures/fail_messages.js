@@ -7,6 +7,10 @@ const Config = require('../../lib/config');
 const DB = require('../../lib/db');
 const Status = require('../../lib/enum/status');
 
+function getBotName() {
+    return 'testbot';
+}
+
 function getBody() {
     return {
         username: 'user',
@@ -17,11 +21,14 @@ function getBody() {
 module.exports.getInput = function () {
     return {
         requestContext: {
-            resourcePath: '/v1/messages',
+            resourcePath: '/v1/{botName}/messages',
             httpMethod: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             }
+        },
+        pathParameters: {
+            botName: getBotName()
         },
         body: getBody()
     };
@@ -36,6 +43,7 @@ module.exports.getAssertions = function () {
 
 module.exports.mock = function () {
     const config = Config.get();
+
     sinon.stub(DB, 'query').callsFake(function (params) {
         expect(params).to.deep.eql({
             IndexName: config.USERNAME_INDEX,

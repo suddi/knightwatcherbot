@@ -11,23 +11,26 @@ const Telegram = rewire('../lib/telegram');
 describe('Unit tests for lib/telegram', function () {
     context('Testing formUrl', function () {
         it('CASE 1: TELEGRAM_API_KEY set', function () {
+            const botName = 'knightwatcherbot';
             const method = 'example';
-            const expectedResult = `https://api.telegram.org/bot123/${method}`;
+            const apiKey = '123';
+            const expectedResult = `https://api.telegram.org/bot${apiKey}/${method}`;
             const formUrl = Telegram.__get__('formUrl');
 
-            process.env.TELEGRAM_API_KEY = '123';
-            const output = formUrl(method);
-            delete process.env.TELEGRAM_API_KEY;
+            process.env[`${botName.toUpperCase()}_TELEGRAM_API_KEY`] = apiKey;
+            const output = formUrl(botName, method);
+            delete process.env[`${botName.toUpperCase()}_TELEGRAM_API_KEY`];
 
             expect(output).to.be.eql(expectedResult);
         });
 
         it('CASE 2: TELEGRAM_API_KEY not set', function () {
+            const botName = 'knightwatcherbot';
             const method = 'example';
             const expectedResult = `https://api.telegram.org/bot/${method}`;
             const formUrl = Telegram.__get__('formUrl');
 
-            const output = formUrl(method);
+            const output = formUrl(botName, method);
 
             expect(output).to.be.eql(expectedResult);
         });
@@ -44,7 +47,7 @@ describe('Unit tests for lib/telegram', function () {
                 return getExpectedResult();
             });
 
-            const output = yield Telegram.sendMessage(1, 'Hello World!');
+            const output = yield Telegram.sendMessage('bot', 1, 'Hello World!');
 
             expect(output).to.deep.eql(getExpectedResult());
         });
