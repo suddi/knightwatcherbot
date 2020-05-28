@@ -93,7 +93,6 @@ module.exports.mock = function () {
     sinon.stub(Telegram, 'sendMessage').callsFake(function (botName, chatId, text) {
         expect(botName).to.be.eql(getBotName());
         expect(chatId).to.be.eql(getBody().message.chat.id);
-        console.log(text);
         expect(text.startsWith('Added user')).to.be.eql(true);
         return Promise.reject(new Error('Fail!'));
     });
