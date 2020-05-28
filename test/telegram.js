@@ -11,7 +11,7 @@ const Telegram = rewire('../lib/telegram');
 describe('Unit tests for lib/telegram', function () {
     context('Testing formUrl', function () {
         it('CASE 1: TELEGRAM_API_KEY set', function () {
-            const botName = 'knightwatcherbot';
+            const botName = 'testbot';
             const method = 'example';
             const apiKey = '123';
             const expectedResult = `https://api.telegram.org/bot${apiKey}/${method}`;
@@ -25,7 +25,7 @@ describe('Unit tests for lib/telegram', function () {
         });
 
         it('CASE 2: TELEGRAM_API_KEY not set', function () {
-            const botName = 'knightwatcherbot';
+            const botName = 'testbot';
             const method = 'example';
             const expectedResult = `https://api.telegram.org/bot/${method}`;
             const formUrl = Telegram.__get__('formUrl');

@@ -27,7 +27,7 @@
     "npm": ">= 6.0.0"
   },
   "scripts": {
-    "coverage": "nyc mocha",
+    "coverage": "NODE_ENV=test nyc mocha",
     "lint": "eslint .",
     "pack": "claudia pack --output build/knightwatcherbot.zip --no-optional-dependencies --force",
     "security-check": "npm audit --audit-level high || true",

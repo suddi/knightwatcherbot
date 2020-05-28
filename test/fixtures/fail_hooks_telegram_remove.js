@@ -20,13 +20,13 @@ function getApiKey() {
 function setEnv() {
     const botName = getBotName().toUpperCase();
     process.env[`${botName}_TELEGRAM_API_KEY`] = getApiKey();
-    process.env.WEBHOOK_API_KEY = getApiKey();
+    process.env[`${botName}_WEBHOOK_API_KEY`] = getApiKey();
 }
 
 function deleteEnv() {
     const botName = getBotName().toUpperCase();
     delete process.env[`${botName}_TELEGRAM_API_KEY`];
-    delete process.env.WEBHOOK_API_KEY;
+    delete process.env[`${botName}_WEBHOOK_API_KEY`];
 }
 
 function getBody() {
