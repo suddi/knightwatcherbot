@@ -37,7 +37,7 @@
     "prepare": "npm run snyk-protect"
   },
   "dependencies": {
-    "aws-sdk": "^2.684.0",
+    "aws-sdk": "^2.685.0",
     "axios": "^0.19.2",
     "claudia-api-builder": "^4.1.2",
     "lodash": "^4.17.15"
